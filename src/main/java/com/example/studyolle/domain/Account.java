@@ -4,11 +4,12 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Getter @Setter @EqualsAndHashCode(of = "id")
 @Builder @AllArgsConstructor @NoArgsConstructor
-public class Acoount {
+public class Account {
 
     @Id @GeneratedValue
     private Long id;
@@ -50,4 +51,7 @@ public class Acoount {
 
     private boolean studyUpdatedByWeb;
 
+    public void generateToken() {
+        this.emailCheckToken = UUID.randomUUID().toString();
+    }
 }
