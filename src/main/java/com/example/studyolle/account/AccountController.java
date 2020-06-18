@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,6 +21,7 @@ public class AccountController {
 
     private final SignUpFormValidator signUpFormValidator;
     private final AccountService accountService;
+    private final AccountRepository accountRepository;
 
     @InitBinder("signUpForm")
     public void initBinder(WebDataBinder webDataBinder) {
@@ -34,6 +36,8 @@ public class AccountController {
     @GetMapping("/sign-up")
     public String signUpForm(Model model) {
         model.addAttribute(new SignUpForm());
+
+
         return "account/sign-up";
     }
 
@@ -48,16 +52,39 @@ public class AccountController {
         if (errors.hasErrors()) {
             return "account/sign-up";
         }
-
         //회원가입
         accountService.processNewAccount(signUpForm);
-
-
-
 
         return "redirect:/";
     }
 
+    @GetMapping("/check-email-token")
+    public String checkEmailToken(String token, String email, Model model) {
+        Account account = accountRepository.findByEmail(email);
+        String retuenView = "account/checked-email";
+        if (account==null) {
+            model.addAttribute("error", "이메일이 잘못되었습니다.");
+            return retuenView;
+        }
+
+        if (!account.getEmailCheckToken().equals(token)) {
+            model.addAttribute("error", "이메일이 잘못되었습니다.");
+            return retuenView;
+        }
+
+        if (!account.isValidToken(token)) {
+            model.addAttribute("error", "이메일이 잘못되었습니다.");
+            return retuenView;
+        }
+
+        account.setEmailVerified(true);
+        account.setJoinedAt(LocalDateTime.now());
+        accountService.login(account);
+        model.addAttribute("numberOfUser", accountRepository.count());
+        model.addAttribute("nickname", account.getNickname());
+
+        return retuenView;
+    }
 
 
 }
