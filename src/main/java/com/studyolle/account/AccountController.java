@@ -1,9 +1,7 @@
-package com.example.studyolle.account;
+package com.studyolle.account;
 
-import com.example.studyolle.domain.Account;
+import com.studyolle.domain.Account;
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;

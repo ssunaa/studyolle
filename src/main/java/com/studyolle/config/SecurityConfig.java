@@ -1,4 +1,4 @@
-package com.example.studyolle.config;
+package com.studyolle.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;

@@ -1,6 +1,7 @@
-package com.example.studyolle.account;
+package com.studyolle.account;
 
-import com.example.studyolle.domain.Account;
+import com.studyolle.account.AccountRepository;
+import com.studyolle.domain.Account;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

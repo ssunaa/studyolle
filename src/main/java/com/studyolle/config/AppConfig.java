@@ -1,4 +1,4 @@
-package com.example.studyolle.config;
+package com.studyolle.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

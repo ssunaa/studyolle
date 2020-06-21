@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bootstrap": "^4.5.0"
+    "bootstrap": "^4.5.0",
+    "font-awesome": "^4.7.0",
+    "jdenticon": "^2.2.0"
   }
 }

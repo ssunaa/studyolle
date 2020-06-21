@@ -1,4 +1,4 @@
-package com.example.studyolle.account;
+package com.studyolle.account;
 
 import lombok.Data;
 import lombok.Getter;
