@@ -1,6 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.3.1.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id "com.github.node-gradle.node" version "2.2.4"
     id 'java'
 }
 
@@ -16,6 +17,15 @@ configurations {
 
 repositories {
     mavenCentral()
+}
+
+node {
+    download = false
+    nodeModulesDir = file("${project.projectDir}/src/main/resources/static")
+}
+
+compileJava {
+    dependsOn npmInstall
 }
 
 dependencies {
@@ -39,6 +49,7 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
 }
+
 
 test {
     useJUnitPlatform()
