@@ -51,7 +51,8 @@ public class AccountController {
             return "account/sign-up";
         }
         //회원가입
-        accountService.processNewAccount(signUpForm);
+        Account account = accountService.processNewAccount(signUpForm);
+        accountService.login(account);
 
         return "redirect:/";
     }

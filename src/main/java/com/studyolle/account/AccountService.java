@@ -24,10 +24,11 @@ public class AccountService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void processNewAccount(SignUpForm signUpForm) {
+    public Account processNewAccount(SignUpForm signUpForm) {
         Account newAccount = saveNewAccount(signUpForm);
         newAccount.generateToken();
         sendSignUpConfirmEmail(newAccount);
+        return newAccount;
     }
 
     private Account saveNewAccount(@Valid SignUpForm signUpForm) {
@@ -53,7 +54,7 @@ public class AccountService {
 
     public void login(Account account) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                account.getNickname(),
+                new UserAccount(account),
                 account.getPassword(),
                 List.of(new SimpleGrantedAuthority("ROLE_USER")));
         SecurityContext contextHolder = SecurityContextHolder.getContext();
