@@ -3,6 +3,7 @@ package com.studyolle.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -25,6 +26,8 @@ public class Account {
     private boolean emailVerified;
 
     private String emailCheckToken;
+
+    private LocalDateTime emailCheckTokenGeneratedAt;
 
     private LocalDateTime joinedAt;
 
@@ -51,6 +54,11 @@ public class Account {
 
     private boolean studyUpdatedByWeb;
 
+    public void generateEmailCheckToken() {
+        this.emailCheckToken = UUID.randomUUID().toString();
+        this.emailCheckTokenGeneratedAt = LocalDateTime.now();
+    }
+
     public void generateToken() {
         this.emailCheckToken = UUID.randomUUID().toString();
     }
@@ -62,5 +70,9 @@ public class Account {
 
     public boolean isValidToken(String token) {
         return this.emailCheckToken.equals(token);
+    }
+
+    public boolean canSendConfirmEmail() {
+        return this.emailCheckTokenGeneratedAt.isBefore(LocalDateTime.now().minusHours(1));
     }
 }

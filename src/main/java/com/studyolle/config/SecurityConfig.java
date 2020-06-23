@@ -17,10 +17,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .mvcMatchers("/", "/login", "/sign-up", "/check-email", "/check-email-token"
+                .mvcMatchers("/", "/sign-up", "/check-email-token"
                         , "/email-login", "/check-mail-login", "/login-link").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/profile/*").permitAll()
                 .anyRequest().authenticated();
+
+        http.formLogin()
+                .loginPage("/login").permitAll(); //permitAll 안해주면 다른페이지로감..??
+
+        http.logout()
+                .logoutSuccessUrl("/");
     }
 
     @Override
