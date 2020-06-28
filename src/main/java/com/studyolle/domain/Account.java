@@ -37,10 +37,10 @@ public class Account {
 
     private String occupation;
 
+    private String location;
+
     @Lob @Basic(fetch = FetchType.EAGER)
     private String profileImage;
-
-    private String location;
 
     private boolean studyCreatedByEmail;
 
