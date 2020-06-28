@@ -69,19 +69,19 @@ public class AccountController {
             return retuenView;
         }
 
+        /*
         if (!account.getEmailCheckToken().equals(token)) {
             model.addAttribute("error", "이메일이 잘못되었습니다.");
             return retuenView;
         }
+        */
 
         if (!account.isValidToken(token)) {
             model.addAttribute("error", "이메일이 잘못되었습니다.");
             return retuenView;
         }
 
-        account.setEmailVerified(true);
-        account.setJoinedAt(LocalDateTime.now());
-        accountService.login(account);
+        accountService.completeSignUp(account);
         model.addAttribute("numberOfUser", accountRepository.count());
         model.addAttribute("nickname", account.getNickname());
 
