@@ -23,7 +23,7 @@ public class Profile {
     @Length(max = 50)
     private String location;
 
-    //@Lob
+    //TODO 이미지파일 크면 저장안됨 ㅠㅠ (에러페이지로감,,,)
     private String profileImage;
 
     public Profile(Account account) {
