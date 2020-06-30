@@ -90,10 +90,7 @@ public class AccountService implements UserDetailsService {
         account.setBio(profile.getBio());
         account.setLocation(profile.getLocation());
         account.setOccupation(profile.getOccupation());
-
-
-        //TODO 프로필 이미지 변경로직 추가 필요.
-
+        account.setProfileImage(profile.getProfileImage());
         accountRepository.save(account);
 
         //TODO 프로필이미지 변경시 발생하는 문제 남아있음.
