@@ -23,7 +23,7 @@ public class Profile {
     @Length(max = 50)
     private String location;
 
-    @Lob
+    //@Lob
     private String profileImage;
 
     public Profile(Account account) {

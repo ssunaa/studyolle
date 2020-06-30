@@ -95,4 +95,9 @@ public class AccountService implements UserDetailsService {
 
         //TODO 프로필이미지 변경시 발생하는 문제 남아있음.
     }
+
+    public void updatePassword(Account account, String newPassword) {
+        account.setPassword(passwordEncoder.encode(newPassword));
+        accountRepository.save(account);
+    }
 }
