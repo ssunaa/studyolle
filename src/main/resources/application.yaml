@@ -2,6 +2,12 @@ spring:
   profiles:
     active: local
 
+##서버기동될때 자동 실행쿼리지정
+#  datasource:
+#    initialization-mode: always
+#    platform: h2
+#    data: data.sql
+
   jpa:
     show-sql: true
     properties:
@@ -10,6 +16,10 @@ spring:
         use_sql_comments: true
 
 server:
+
+  #tomcat:
+    #max-http-form-post-size: 5M
+
   servlet:
     session:
       timeout: 30m
