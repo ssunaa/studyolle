@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: local
+    active: dev
 
   ##서버기동될때 자동 실행쿼리지정
 #  datasource:
@@ -23,3 +23,10 @@ server:
   servlet:
     session:
       timeout: 30m
+
+#개발용
+#  profiles: dev
+#    datasource:
+#      url: postgresql://localhost:5432/testdb
+#      username: testuser
+#      password: testpass
