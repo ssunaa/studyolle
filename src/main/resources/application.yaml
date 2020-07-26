@@ -24,6 +24,9 @@ server:
     session:
       timeout: 30m
 
+app:
+  host: http://localhost:8080
+
 #개발용
 #  profiles: dev
 #    datasource:
