@@ -53,6 +53,23 @@ public class StudySettingsController {
         return "redirect:/study/" + getPath(path) + "/settings/description";
     }
 
+    @GetMapping("/banner")
+    public String studyImageForm(@CurrentAccount Account account, @PathVariable String path, Model model) {
+        Study study = studyService.getStudyToUpdate(account, path);
+        model.addAttribute(account);
+        model.addAttribute(study);
+        return "study/settings/banner";
+    }
+
+    @PostMapping("/banner")
+    public String studyImageSubmit(@CurrentAccount Account account, @PathVariable String path,
+                                   String image, RedirectAttributes attributes) {
+        Study study = studyService.getStudyToUpdate(account, path);
+        studyService.updateStudyImage(study, image);
+        attributes.addFlashAttribute("message", "스터디 이미지를 수정했습니다.");
+        return "redirect:/study/" + getPath(path) + "/settings/banner";
+    }
+
     private String getPath(String path) {
         return URLEncoder.encode(path, StandardCharsets.UTF_8);
     }
