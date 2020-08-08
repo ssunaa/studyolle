@@ -74,4 +74,18 @@ public class StudySettingsController {
         return URLEncoder.encode(path, StandardCharsets.UTF_8);
     }
 
+    @PostMapping("/banner/enable")
+    public String enableStudyBanner(@CurrentAccount Account account, @PathVariable String path, Model model) {
+        Study study = studyService.getStudyToUpdate(account, path);
+        studyService.enableStudyBanner(study);
+        return "redirect:/study/" + getPath(path) + "/settings/banner";
+    }
+
+    @PostMapping("/banner/enable")
+    public String disableStudyBanner(@CurrentAccount Account account, @PathVariable String path, Model model) {
+        Study study = studyService.getStudyToUpdate(account, path);
+        studyService.disableStudyBanner(study);
+        return "redirect:/study/" + getPath(path) + "/settings/banner";
+    }
+
 }
