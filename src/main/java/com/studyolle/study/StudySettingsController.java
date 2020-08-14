@@ -27,6 +27,13 @@ public class StudySettingsController {
     private final StudyService studyService;
     private final ModelMapper modelMapper;
 
+    /**
+     * 스터디 소개 조회
+     * @param account
+     * @param path
+     * @param model
+     * @return
+     */
     @GetMapping("/description")
     public String viewStudtSetting(@CurrentAccount Account account, @PathVariable String path, Model model) {
         Study study = studyService.getStudyToUpdate(account, path);
@@ -36,6 +43,16 @@ public class StudySettingsController {
         return "study/settings/description";
     }
 
+    /**
+     * 스터디 소개 수정
+     * @param account
+     * @param path
+     * @param studyDescriptionForm
+     * @param errors
+     * @param model
+     * @param attributes
+     * @return
+     */
     @PostMapping("/description")
     public String updateStudyInfo(@CurrentAccount Account account, @PathVariable String path,
                                   @Valid StudyDescriptionForm studyDescriptionForm, Errors errors
@@ -53,6 +70,13 @@ public class StudySettingsController {
         return "redirect:/study/" + getPath(path) + "/settings/description";
     }
 
+    /**
+     * 배너 등록화면 호출
+     * @param account
+     * @param path
+     * @param model
+     * @return
+     */
     @GetMapping("/banner")
     public String studyImageForm(@CurrentAccount Account account, @PathVariable String path, Model model) {
         Study study = studyService.getStudyToUpdate(account, path);
@@ -61,6 +85,14 @@ public class StudySettingsController {
         return "study/settings/banner";
     }
 
+    /**
+     * 배너 이미지 등록처리
+     * @param account
+     * @param path
+     * @param image
+     * @param attributes
+     * @return
+     */
     @PostMapping("/banner")
     public String studyImageSubmit(@CurrentAccount Account account, @PathVariable String path,
                                    String image, RedirectAttributes attributes) {
@@ -74,6 +106,13 @@ public class StudySettingsController {
         return URLEncoder.encode(path, StandardCharsets.UTF_8);
     }
 
+    /**
+     * 배너 활성화
+     * @param account
+     * @param path
+     * @param model
+     * @return
+     */
     @PostMapping("/banner/enable")
     public String enableStudyBanner(@CurrentAccount Account account, @PathVariable String path, Model model) {
         Study study = studyService.getStudyToUpdate(account, path);
@@ -81,7 +120,14 @@ public class StudySettingsController {
         return "redirect:/study/" + getPath(path) + "/settings/banner";
     }
 
-    @PostMapping("/banner/enable")
+    /**
+     * 배너 비활성화
+     * @param account
+     * @param path
+     * @param model
+     * @return
+     */
+    @PostMapping("/banner/disable")
     public String disableStudyBanner(@CurrentAccount Account account, @PathVariable String path, Model model) {
         Study study = studyService.getStudyToUpdate(account, path);
         studyService.disableStudyBanner(study);
