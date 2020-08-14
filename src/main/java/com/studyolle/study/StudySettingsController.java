@@ -35,7 +35,7 @@ public class StudySettingsController {
      * @return
      */
     @GetMapping("/description")
-    public String viewStudtSetting(@CurrentAccount Account account, @PathVariable String path, Model model) {
+    public String viewStudySetting(@CurrentAccount Account account, @PathVariable String path, Model model) {
         Study study = studyService.getStudyToUpdate(account, path);
         model.addAttribute(account);
         model.addAttribute(study);
