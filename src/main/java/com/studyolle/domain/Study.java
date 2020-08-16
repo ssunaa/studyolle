@@ -13,6 +13,14 @@ import java.util.Set;
         @NamedAttributeNode("zones"),
         @NamedAttributeNode("managers"),
         @NamedAttributeNode("members")})
+@NamedEntityGraph(name = "Study.withTagsAndManagers", attributeNodes = {
+        @NamedAttributeNode("tags"),
+        @NamedAttributeNode("managers")})
+@NamedEntityGraph(name = "Study.withZonesAndManagers", attributeNodes = {
+        @NamedAttributeNode("zones"),
+        @NamedAttributeNode("managers")})
+@NamedEntityGraph(name = "Study.withManagers", attributeNodes = {
+        @NamedAttributeNode("managers")})
 @Entity
 @Getter
 @Setter
@@ -89,5 +97,27 @@ public class Study {
 
     public String getImage() {
         return image != null ? image : "/images/default_banner.png";
+    }
+
+    public void publish() {
+        if (!this.closed) {
+            this.published = !this.published;
+            this.publishedDateTime = LocalDateTime.now();
+        } else {
+            if (!this.published) {
+                throw new RuntimeException("스터디를 공개할 수 없는 상태입니다. 스터디를 이미 공개했거나 종료했습니다.");
+            } else {
+                throw new RuntimeException("스터디를 비공개할 수 없는 상태입니다. 스터디를 이미 비공개했거나 종료했습니다.");
+            }
+        }
+    }
+
+    public void close() {
+        if (this.published && !this.closed) {
+            this.closed = true;
+            this.closedDateTime = LocalDateTime.now();
+        } else {
+            throw new RuntimeException("스터디를 종료할 수 없는 상태입니다. 스터디를 공개하지 않았거나 이미 종료한 스터디입니다.");
+        }
     }
 }

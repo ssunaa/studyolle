@@ -6,7 +6,7 @@ import com.studyolle.account.AccountRepository;
 import com.studyolle.account.AccountService;
 import com.studyolle.domain.Account;
 import com.studyolle.domain.Tag;
-import com.studyolle.settings.form.TagForm;
+import com.studyolle.tag.TagForm;
 import com.studyolle.tag.TagRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
