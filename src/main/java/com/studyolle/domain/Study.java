@@ -100,14 +100,18 @@ public class Study {
     }
 
     public void publish() {
-        if (!this.closed) {
-            this.published = !this.published;
-            this.publishedDateTime = LocalDateTime.now();
+        if (this.closed) {
+            throw new RuntimeException("스터디를 공개(비공개)할 수 없는 상태입니다. 스터디를 이미 종료했습니다.");
         } else {
-            if (!this.published) {
-                throw new RuntimeException("스터디를 공개할 수 없는 상태입니다. 스터디를 이미 공개했거나 종료했습니다.");
+
+            this.published = !this.published;
+
+            if (this.published) {
+                //스터디공개처리
+                this.publishedDateTime = LocalDateTime.now();
             } else {
-                throw new RuntimeException("스터디를 비공개할 수 없는 상태입니다. 스터디를 이미 비공개했거나 종료했습니다.");
+                //스터디비공개처리
+                this.publishedDateTime = null;
             }
         }
     }
