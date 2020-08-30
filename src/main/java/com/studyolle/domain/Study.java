@@ -124,4 +124,8 @@ public class Study {
             throw new RuntimeException("스터디를 종료할 수 없는 상태입니다. 스터디를 공개하지 않았거나 이미 종료한 스터디입니다.");
         }
     }
+
+    public boolean isRemovable() {
+        return !this.published; // TODO 모임을 했던 스터디는 삭제할 수 없다.
+    }
 }
