@@ -68,4 +68,30 @@ public class StudyController {
         return "study/members";
     }
 
+    /**
+     * 스터디 가입
+     * @param account
+     * @param path
+     * @return
+     */
+    @GetMapping("/study/{path}/join")
+    public String joinStudy(@CurrentAccount Account account, @PathVariable String path) {
+        Study study = studyRepository.findStudyWithMembersByPath(path);
+        studyService.addMember(study, account);
+        return "redirect:/study/" + study.getEncodedPath() + "/members";
+    }
+
+    /**
+     * 스터디 탈퇴
+     * @param account
+     * @param path
+     * @return
+     */
+    @GetMapping("/study/{path}/leave")
+    public String leaveStudy(@CurrentAccount Account account, @PathVariable String path) {
+        Study study = studyRepository.findStudyWithMembersByPath(path);
+        studyService.removeMember(study, account);
+        return "redirect:/study/" + study.getEncodedPath() + "/members";
+    }
+
 }

@@ -4,6 +4,8 @@ import com.studyolle.account.UserAccount;
 import lombok.*;
 
 import javax.persistence.*;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -91,10 +93,6 @@ public class Study {
         return this.managers.contains(userAccount.getAccount());
     }
 
-    public void addMemeber(Account account) {
-        this.members.add(account);
-    }
-
     public String getImage() {
         return image != null ? image : "/images/default_banner.png";
     }
@@ -125,7 +123,42 @@ public class Study {
         }
     }
 
+    public void startRecruit() {
+        if (canUpdateRecruiting()) {
+            this.recruiting = true;
+            this.recruitingUpdatedDateTime = LocalDateTime.now();
+        } else {
+            throw new RuntimeException("인원 모집을 시작할 수 없습니다. 스터디를 공개하거나 한 시간 뒤 다시 시도하세요.");
+        }
+    }
+
+    public void stopRecruit() {
+        if (canUpdateRecruiting()) {
+            this.recruiting = false;
+            this.recruitingUpdatedDateTime = LocalDateTime.now();
+        } else {
+            throw new RuntimeException("인원 모집을 멈출 수 없습니다. 스터디를 공개하거나 한 시간 뒤 다시 시도하세요.");
+        }
+    }
+
+    public boolean canUpdateRecruiting() {
+        return this.published && this.recruitingUpdatedDateTime == null || this.recruitingUpdatedDateTime.isBefore(LocalDateTime.now().minusHours(1));
+    }
+
     public boolean isRemovable() {
         return !this.published; // TODO 모임을 했던 스터디는 삭제할 수 없다.
     }
+
+    public void addMemeber(Account account) {
+        this.getMembers().add(account);
+    }
+
+    public void removeMemeber(Account account) {
+        this.getMembers().remove(account);
+    }
+
+    public String getEncodedPath() {
+        return URLEncoder.encode(this.path, StandardCharsets.UTF_8);
+    }
+
 }

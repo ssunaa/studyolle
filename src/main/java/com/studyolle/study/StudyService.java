@@ -117,6 +117,14 @@ public class StudyService {
         study.close();
     }
 
+    public void startRecruit(Study study) {
+        study.startRecruit();
+    }
+
+    public void stopRecruit(Study study) {
+        study.stopRecruit();
+    }
+
     public boolean isValidPath(String newPath) {
         if (!newPath.matches(VALID_PATH_PATTERN)) {
             return false;
@@ -144,4 +152,13 @@ public class StudyService {
             throw new IllegalArgumentException("스터디를 삭제할 수 없습니다.");
         }
     }
+
+    public void addMember(Study study, Account account) {
+        study.addMemeber(account);
+    }
+
+    public void removeMember(Study study, Account account) {
+        study.removeMemeber(account);
+    }
+
 }
