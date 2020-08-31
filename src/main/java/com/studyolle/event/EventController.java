@@ -38,6 +38,13 @@ public class EventController {
         webDataBinder.addValidators(eventValidator);
     }
 
+    /**
+     * 모임 만들기 화면 호출
+     * @param account
+     * @param path
+     * @param model
+     * @return
+     */
     @GetMapping("/new-event")
     public String newEventForm(@CurrentAccount Account account, @PathVariable String path, Model model) {
         Study study = studyService.getStudyToUpdateStatus(account, path);
@@ -47,6 +54,15 @@ public class EventController {
         return "event/form";
     }
 
+    /**
+     * 모임 만들기
+     * @param account
+     * @param path
+     * @param eventForm
+     * @param errors
+     * @param model
+     * @return
+     */
     @PostMapping("/new-event")
     public String newEventSubmit(@CurrentAccount Account account, @PathVariable String path,
                                  @Valid EventForm eventForm, Errors errors, Model model)  {
@@ -61,6 +77,14 @@ public class EventController {
         return "redirect:/study/" + study.getEncodedPath() + "/events/" + event.getId();
     }
 
+    /**
+     * 모임 상세조회
+     * @param account
+     * @param path
+     * @param id
+     * @param model
+     * @return
+     */
     @GetMapping("/events/{id}")
     public String getEvent(@CurrentAccount Account account, @PathVariable String path, @PathVariable Long id, Model model) {
         model.addAttribute(account);
