@@ -191,4 +191,36 @@ public class EventController {
         return "redirect:/study/" + study.getEncodedPath() + "/events";
     }
 
+    /**
+     * 모임참가신청
+     * @param account
+     * @param path
+     * @param id
+     * @return
+     */
+    @PostMapping("/events/{id}/enroll")
+    public String newEnrollment(@CurrentAccount Account account, @PathVariable String path,
+                                 @PathVariable Long id) {
+        Study study = studyService.getStudyToEnroll(path);
+        eventService.newEnrollment(eventRepository.findById(id).orElseThrow(), account);
+        return "redirect:/study/" + study.getEncodedPath() + "/events/" + id;
+    }
+
+    /**
+     * 모임참가신청 취소
+     * @param account
+     * @param path
+     * @param id
+     * @return
+     */
+    @PostMapping("/events/{id}/disenroll")
+    public String cancelEnrollment(@CurrentAccount Account account, @PathVariable String path,
+                                 @PathVariable Long id) {
+        Study study = studyService.getStudyToEnroll(path);
+        eventService.cancelEnrollment(eventRepository.findById(id).orElseThrow(), account);
+        return "redirect:/study/" + study.getEncodedPath() + "/events/" + id;
+    }
+
+                                 
+
 }
