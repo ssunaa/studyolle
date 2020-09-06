@@ -7,11 +7,14 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@NamedEntityGraph(name = "Event.withEnrollments"
-                , attributeNodes = @NamedAttributeNode("enrollments"))
+@NamedEntityGraph(
+        name = "Event.withEnrollments",
+        attributeNodes = @NamedAttributeNode("enrollments")
+)
 @Entity
 @Getter @Setter @EqualsAndHashCode(of = "id")
 public class Event {
@@ -32,7 +35,7 @@ public class Event {
     private String description;
 
     @Column(nullable = false)
-    private LocalDateTime createDateTime;
+    private LocalDateTime createdDateTime;
 
     @Column(nullable = false)
     private LocalDateTime endEnrollmentDateTime;
@@ -43,11 +46,11 @@ public class Event {
     @Column(nullable = false)
     private LocalDateTime endDateTime;
 
-    @Column(nullable = false)
-    private int limitOfEnrollments;
+    @Column
+    private Integer limitOfEnrollments;
 
     @OneToMany(mappedBy = "event")
-    private List<Enrollment> enrollments;
+    private List<Enrollment> enrollments = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private EventType eventType;
@@ -58,6 +61,10 @@ public class Event {
 
     public boolean isDisenrollableFor(UserAccount userAccount) {
         return isNotClosed() && isAlreadyEnrolled(userAccount);
+    }
+
+    private boolean isNotClosed() {
+        return this.endEnrollmentDateTime.isAfter(LocalDateTime.now());
     }
 
     public boolean isAttended(UserAccount userAccount) {
@@ -75,10 +82,6 @@ public class Event {
         return this.limitOfEnrollments - (int) this.enrollments.stream().filter(Enrollment::isAccepted).count();
     }
 
-    private boolean isNotClosed() {
-        return this.endEnrollmentDateTime.isAfter(LocalDateTime.now());
-    }
-
     private boolean isAlreadyEnrolled(UserAccount userAccount) {
         Account account = userAccount.getAccount();
         for (Enrollment e : this.enrollments) {
@@ -89,12 +92,8 @@ public class Event {
         return false;
     }
 
-    public Long getNumberOfAcceptedEnrollments() {
+    public long getNumberOfAcceptedEnrollments() {
         return this.enrollments.stream().filter(Enrollment::isAccepted).count();
-    }
-
-    public boolean isAbleToAcceptWaitingEnrollment() {
-        return this.eventType == EventType.FCFS && this.limitOfEnrollments > this.getNumberOfAcceptedEnrollments();
     }
 
     public void addEnrollment(Enrollment enrollment) {
@@ -107,35 +106,8 @@ public class Event {
         enrollment.setEvent(null);
     }
 
-    public void acceptNextWaitingEnrollment() {
-        if (this.isAbleToAcceptWaitingEnrollment()) {
-            Enrollment enrollmentToAccept = this.getTheFirstWaitingEnrollment();
-            if (enrollmentToAccept != null) {
-                enrollmentToAccept.setAccepted(true);
-            }
-        }
-    }
-
-    private List<Enrollment> getWaitingList() {
-        return this.enrollments.stream().filter(enrollment -> !enrollment.isAccepted()).collect(Collectors.toList());
-    }
-
-    public void acceptWaitingList() {
-        if (this.isAbleToAcceptWaitingEnrollment()) {
-            var waitingList = getWaitingList();
-            int numberToAccept = (int) Math.min(this.limitOfEnrollments - this.getNumberOfAcceptedEnrollments(), waitingList.size());
-            waitingList.subList(0, numberToAccept).forEach(e -> e.setAccepted(true));
-        }
-    }
-
-    private Enrollment getTheFirstWaitingEnrollment() {
-        for (Enrollment e : this.enrollments) {
-            if (!e.isAccepted()) {
-                return e;
-            }
-        }
-
-        return null;
+    public boolean isAbleToAcceptWaitingEnrollment() {
+        return this.eventType == EventType.FCFS && this.limitOfEnrollments > this.getNumberOfAcceptedEnrollments();
     }
 
     public boolean canAccept(Enrollment enrollment) {
@@ -152,4 +124,34 @@ public class Event {
                 && enrollment.isAccepted();
     }
 
+    private List<Enrollment> getWaitingList() {
+        return this.enrollments.stream().filter(enrollment -> !enrollment.isAccepted()).collect(Collectors.toList());
+    }
+
+    public void acceptWaitingList() {
+        if (this.isAbleToAcceptWaitingEnrollment()) {
+            var waitingList = getWaitingList();
+            int numberToAccept = (int) Math.min(this.limitOfEnrollments - this.getNumberOfAcceptedEnrollments(), waitingList.size());
+            waitingList.subList(0, numberToAccept).forEach(e -> e.setAccepted(true));
+        }
+    }
+
+    public void acceptNextWaitingEnrollment() {
+        if (this.isAbleToAcceptWaitingEnrollment()) {
+            Enrollment enrollmentToAccept = this.getTheFirstWaitingEnrollment();
+            if (enrollmentToAccept != null) {
+                enrollmentToAccept.setAccepted(true);
+            }
+        }
+    }
+
+    private Enrollment getTheFirstWaitingEnrollment() {
+        for (Enrollment e : this.enrollments) {
+            if (!e.isAccepted()) {
+                return e;
+            }
+        }
+
+        return null;
+    }
 }

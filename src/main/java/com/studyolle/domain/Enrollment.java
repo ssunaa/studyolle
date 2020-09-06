@@ -29,4 +29,8 @@ public class Enrollment {
 
     private boolean attended;
 
+    private Long getAccountId() {
+        return this.account.getId();
+    }
+
 }

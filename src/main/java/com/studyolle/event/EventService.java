@@ -23,7 +23,7 @@ public class EventService {
 
     public Event createEvent(Event event, Study study, Account account) {
         event.setCreatedBy(account);
-        event.setCreateDateTime(LocalDateTime.now());
+        event.setCreatedDateTime(LocalDateTime.now());
         event.setStudy(study);
         return eventRepository.save(event);
     }
@@ -47,7 +47,6 @@ public class EventService {
             enrollment.setAccount(account);
             event.addEnrollment(enrollment);
             enrollMentRepository.save(enrollment);
-
         }
     }
 
