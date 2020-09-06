@@ -175,4 +175,20 @@ public class EventController {
         eventService.updateEvent(event, eventForm);
         return "redirect:/study/" + study.getEncodedPath() + "/events/" + event.getId();
     }
+
+    /**
+     * 모임 취소
+     * @param account
+     * @param path
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/events/{id}")
+    public String cancelEvent(@CurrentAccount Account account, @PathVariable String path,
+                              @PathVariable Long id) {
+        Study study = studyService.getStudyToUpdateStatus(account, path);
+        eventService.deleteEvent(eventRepository.findById(id).orElseThrow());
+        return "redirect:/study/" + study.getEncodedPath() + "/events";
+    }
+
 }
