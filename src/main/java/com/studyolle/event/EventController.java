@@ -123,4 +123,56 @@ public class EventController {
 
         return "study/events";
     }
+
+    /**
+     * 모임 수정 화면 호출
+     * @param account
+     * @param path
+     * @param id
+     * @param model
+     * @return
+     */
+    @GetMapping("/events/{id}/edit")
+    public String updateEventForm(@CurrentAccount Account account,
+                                  @PathVariable String path, @PathVariable Long id, Model model) {
+
+        Study study = studyService.getStudyToUpdate(account, path);
+        Event event = eventRepository.findById(id).orElseThrow();
+        model.addAttribute(study);
+        model.addAttribute(event);
+        model.addAttribute(account);
+        model.addAttribute(modelMapper.map(event, EventForm.class));
+        return "event/update-form";
+    }
+
+    /**
+     * 모임 수정
+     * @param account
+     * @param path
+     * @param id
+     * @param eventForm
+     * @param errors
+     * @param model
+     * @return
+     */
+    @PostMapping("/events/{id}/edit")
+    public String updateEventForm(@CurrentAccount Account account,
+                                  @PathVariable String path, @PathVariable Long id,
+                                  @Valid EventForm eventForm, Errors errors, Model model) {
+        
+        Study study = studyService.getStudyToUpdate(account, path);
+        Event event = eventRepository.findById(id).orElseThrow();
+        eventForm.setEventType(event.getEventType());
+        eventValidator.validateUpdateForm(eventForm, event, errors);
+
+        if (errors.hasErrors()) {
+            model.addAttribute(account);
+            model.addAttribute(study);
+            model.addAttribute(event);
+            return "event/update-form";
+        }
+
+        eventService.updateEvent(event, eventForm);
+        return "redirect:/study/" + study.getEncodedPath() + "/events/" + event.getId();
+    }
 }

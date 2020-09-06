@@ -359,7 +359,6 @@ public class StudySettingsController {
         return "redirect:/study/" + study.getEncodedPath() + "/settings/study";
     }
 
-
     /**
      * 스터디 이름 설정
      * @param account

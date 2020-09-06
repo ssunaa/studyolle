@@ -25,7 +25,7 @@
                 <div th:if="${newEvents.size() == 0}" class="col">
                     새 모임이 없습니다.
                 </div>
-                <div th:if="${newEvents.size() > 0}"  class="col mb-4 pr-0" th:each="event: ${newEvents}">
+                <div class="col mb-4 pr-0" th:each="event: ${newEvents}">
                     <div class="card">
                         <div class="card-header">
                             <span th:text="${event.title}">title</span>
