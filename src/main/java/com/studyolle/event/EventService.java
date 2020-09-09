@@ -56,4 +56,12 @@ public class EventService {
         enrollMentRepository.delete(enrollment);
         event.acceptNextWaitingEnrollment();
     }
+
+    public void acceptEnrollment(Event event, Enrollment enrollment) {
+        event.accept(enrollment);
+    }
+
+    public void rejectEnrollment(Event event, Enrollment enrollment) {
+        event.reject(enrollment);
+    }
 }
