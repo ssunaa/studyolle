@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.3.1.RELEASE'
+    id 'org.springframework.boot' version '2.3.3.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id "com.github.node-gradle.node" version "2.2.4"
     id 'java'
@@ -52,8 +52,11 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+    testImplementation 'com.tngtech.archunit:archunit-junit5:0.14.1'
 
 }
+
+
 
 test {
     useJUnitPlatform()
