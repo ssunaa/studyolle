@@ -9,6 +9,8 @@
 - [ ] h2 콘솔창 접근 안됨.(시큐리티관련) -> 시큐리티쪽 변경했는데 안됨..... 이유찾아볼것.
 - [ ] StudyController 스터디 관련 테스트코드 작성 필요.
 - [ ] EventController 모임 관련 테스트코드 작성 필요.
+- [ ] 도커 설치 필요.
+- [ ] 테스트 DB PostgreSQL로 전환.(application-test.yaml )
 - [X] 모임 비공개 기능 추가하기 -> 공개,비공개,종료 세가지타입으로 설정
 - [X] 프로필 이미지 크기 클때 저장안됨.
 - [X] 이메일인증시 확인링크에 null 날라오는 것 확인할것 (SendSignUpConfirmEmail메서드 url 이 안날라가는것 같음.) -> application에 host선언안했던 문제
