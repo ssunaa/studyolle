@@ -3,6 +3,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id "com.github.node-gradle.node" version "2.2.4"
     id 'java'
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'com.example'
@@ -13,6 +14,9 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    querydsl {
+        extendsFrom compileClasspath
+    }
 }
 
 repositories {
@@ -22,6 +26,21 @@ repositories {
 node {
     download = false
     nodeModulesDir = file("${project.projectDir}/src/main/resources/static")
+}
+
+def querydslSrcDir = "$buildDir/generated/querydsl"
+
+sourceSets {
+    main.java.srcDir querydslSrcDir
+}
+
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslSrcDir
+}
+
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
 }
 
 compileJava {
@@ -37,6 +56,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     implementation 'org.modelmapper:modelmapper:2.3.6'
+    implementation 'com.querydsl:querydsl-jpa:4.3.1'
 
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -53,10 +73,7 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     testImplementation 'com.tngtech.archunit:archunit-junit5:0.14.1'
-
 }
-
-
 
 test {
     useJUnitPlatform()
