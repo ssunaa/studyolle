@@ -61,6 +61,8 @@ public class StudyEventListener {
 
             if (account.isStudyCreatedByWeb()) {
 
+                //TODO DB저장 (리파지토리 save활용)
+
             }
         });
     }
