@@ -61,7 +61,6 @@ public class StudyEventListener {
 
             if (account.isStudyCreatedByWeb()) {
 
-                //TODO DB저장 (리파지토리 save활용)
                 if (account.isStudyCreatedByWeb()) {
                     saveStudyCreatedNotification(study, account);
                 }
@@ -80,7 +79,7 @@ public class StudyEventListener {
         notification.setTitle(study.getTitle());
         notification.setLink("/study/" + study.getEncodedPath());
         notification.setChecked(false);
-        notification.setCreatedLocalDateTime(LocalDateTime.now());
+        notification.setCreatedDateTime(LocalDateTime.now());
         notification.setMessage(study.getShortDescription());
         notification.setAccount(account);
         notification.setNotificationType(NotificationType.STUDY_CREATED);
