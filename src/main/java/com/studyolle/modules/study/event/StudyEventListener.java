@@ -45,8 +45,8 @@ public class StudyEventListener {
                 Context context = new Context();
                 context.setVariable("nickname", account.getNickname());
                 context.setVariable("link", "/study/" + study.getEncodedPath());
-                context.setVariable("linkName" , study.getTitle());
-                context.setVariable("message" , "새로운 스터디가 생겼습니다.");
+                context.setVariable("linkName", study.getTitle());
+                context.setVariable("message", "새로운 스터디가 생겼습니다.");
                 context.setVariable("host", appProperties.getHost());
                 String message = templateEngine.process("mail/simple-link", context);
 
@@ -62,8 +62,29 @@ public class StudyEventListener {
             if (account.isStudyCreatedByWeb()) {
 
                 //TODO DB저장 (리파지토리 save활용)
+                if (account.isStudyCreatedByWeb()) {
+                    saveStudyCreatedNotification(study, account);
+                }
 
             }
         });
     }
+
+    /**
+     * 스터디 알람설정 저장
+     * @param study
+     * @param account
+     */
+    private void saveStudyCreatedNotification(Study study, Account account) {
+        Notification notification = new Notification();
+        notification.setTitle(study.getTitle());
+        notification.setLink("/study/" + study.getEncodedPath());
+        notification.setChecked(false);
+        notification.setCreatedLocalDateTime(LocalDateTime.now());
+        notification.setMessage(study.getShortDescription());
+        notification.setAccount(account);
+        notification.setNotificationType(NotificationType.STUDY_CREATED);
+        notificationRepository.save(notification);
+    }
+
 }
