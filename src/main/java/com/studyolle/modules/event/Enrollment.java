@@ -5,12 +5,16 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@NamedEntityGraph(
+        name = "Enrollment.withEventAndStudy",
+        attributeNodes = {
+                @NamedAttributeNode(value = "event", subgraph = "study")
+        },
+        subgraphs = @NamedSubgraph(name = "study", attributeNodes = @NamedAttributeNode("study"))
+)
 @Entity
 @Getter @Setter @EqualsAndHashCode(of = "id")
 public class Enrollment {
@@ -29,9 +33,5 @@ public class Enrollment {
     private boolean accepted;
 
     private boolean attended;
-
-    private Long getAccountId() {
-        return this.account.getId();
-    }
 
 }
