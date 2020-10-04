@@ -5,15 +5,15 @@ spring:
       ddl-auto: update
 
   datasource:
-      url: jdbc:postgresql://localhost:5432/testdb
+      url: jdbc:postgresql://localhost:5432/testdb2
       username: testuser
       password: testpass
 
   mail:
     host: smtp.gmail.com
     port: 587
-    username:
-    password:
+    username: seonflower91@gmail.com
+    password: vqajcdlummpfhahl
     properties:
       mail:
         smtp:
