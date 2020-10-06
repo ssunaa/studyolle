@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: local
 
   ##서버기동될때 자동 실행쿼리지정
 #  datasource:
@@ -33,6 +33,16 @@ server:
 
 app:
   host: http://localhost:8080
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
 
 #개발용
 #  profiles: dev
