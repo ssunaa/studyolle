@@ -138,7 +138,7 @@ public class Study {
     }
 
     public boolean isRemovable() {
-        return !this.published; // TODO 모임을 했던 스터디는 삭제할 수 없다.
+        return !this.published; //모임을 했던 스터디는 삭제할 수 없다.
     }
 
     public void addMemeber(Account account) {
