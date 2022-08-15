@@ -14,7 +14,6 @@ public class ExceptionAdvice {
 
     @ExceptionHandler
     public String handleRuntimeException(@CurrentAccount Account account, HttpServletRequest req, Exception e) {
-        log.debugger("connected test");
 
         if (account != null) {
             log.info("'{}' requested '{}'", account.getNickname(), req.getRequestURI());
